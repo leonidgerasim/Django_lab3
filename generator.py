@@ -8,7 +8,7 @@ class Data:
     def __init__(self, m):
         self.m = m
         self.date_list = []
-        self.df = pd.DataFrame({"Дата": [], "Курс": [], "Биржа": []})
+        self.df = pd.DataFrame({"Дата": [], "Курс $": [], "Биржа": []})
         self.stock_markets = ['СПБ Биржа', 'Мосбиржа',
                               ' New York Stock Exchange (NYSE)',
                               'National Association of Securities Dealers Automated Quotation (NASDAQ)',
@@ -28,7 +28,7 @@ class Data:
                 if len(self.df.index) <= len(self.stock_markets):
                     k = numpy.random.normal(loc=self.m, scale=self.m*0.5/3)
                 else:
-                    k = self.df['Курс'].loc[len(self.df.index)-len(self.stock_markets)]
+                    k = self.df['Курс $'].loc[len(self.df.index)-len(self.stock_markets)]
                     k = numpy.random.normal(loc=k, scale=k*0.1/3)
                 self.df.loc[len(self.df.index)] = [date, k, s]
 
@@ -36,14 +36,14 @@ class Data:
 
     def show_data(self, rows=None):
         if rows is None:
-            rows = ['Дата', 'Курс', 'Биржа']
+            rows = ['Дата', 'Курс $', 'Биржа']
         print(self.df[rows])
 
     def get_data(self):
         return self.df
 
 
-data = Data(90).get_data()
+data = Data(100).get_data()
 data = data.groupby('Дата').mean(numeric_only=True)
 data.to_csv('Data.csv')
 
