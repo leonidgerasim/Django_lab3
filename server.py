@@ -1,12 +1,13 @@
 import pandas as pd
-from pandas.io.excel import ExcelWriter, ExcelFile
-import os
-import stat
+from generator import Data
 
-data = pd.read_csv('Data.csv')
+data = Data(rate=90, num_days=31).get_data()
+data = data.groupby('Дата').mean(numeric_only=True)
+data.to_csv('Data.csv')
 
-with ExcelWriter('exdata.xlsx') as writer:
-    data.to_excel(writer, index=False)
 
-print(data)
+
+
+
+
 
