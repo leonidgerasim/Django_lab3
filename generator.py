@@ -1,6 +1,6 @@
 import datetime
 import numpy
-import  pandas as pd
+import pandas as pd
 
 
 class Data:
@@ -18,7 +18,7 @@ class Data:
         self.create_date_list()
 
     def create_date_list(self):
-        a = datetime.datetime.today()
+        a = datetime.date.today()
         numdays = 9
         for x in range(numdays, -1, -1):
             self.date_list.append(a - datetime.timedelta(days=x))
@@ -32,6 +32,8 @@ class Data:
                     k = numpy.random.normal(loc=k, scale=k*0.1/3)
                 self.df.loc[len(self.df.index)] = [date, k, s]
 
+        self.df = self.df.groupby('Дата').mean(numeric_only=True)
+
     def show_data(self, rows=None):
         if rows is None:
             rows = ['Дата', 'Курс', 'Биржа']
@@ -41,5 +43,8 @@ class Data:
         return self.df
 
 
+data = Data(90).get_data()
+data = data.groupby('Дата').mean(numeric_only=True)
+data.to_csv('Data.csv')
 
 
